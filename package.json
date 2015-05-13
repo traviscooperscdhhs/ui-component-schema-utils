@@ -1,5 +1,5 @@
 {
-  "name": "ui-component-schema-utils",
+  "name": "@scdhhs/ui-component-schema-utils",
   "version": "1.0.0",
   "description": "A module for working with UI component schema JSON.",
   "main": "ui-component-schema-utils.js",
