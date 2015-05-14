@@ -227,10 +227,10 @@ class SchemaUtils {
     let head = schema.components[componentId];
     let id = componentId;
     while(head){
+      fn(id, head);
       if ( head.child ) {
         SchemaUtils.traverse(schema, head.child, fn);
       }
-      fn(id, head);
       id = head.next;
       head = schema.components[id];
     }

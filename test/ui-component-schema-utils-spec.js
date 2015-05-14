@@ -175,11 +175,11 @@ describe('SchemaUtils', function(){
       fn.calls.reset();
       SchemaUtils.traverse(workflowFixture, 'page2', fn);
       expect(fn.calls.count()).toEqual(6);
-      expect(fn.calls.argsFor(0)[0]).toEqual('page3');
-      expect(fn.calls.argsFor(1)[0]).toEqual('page4');
-      expect(fn.calls.argsFor(2)[0]).toEqual('page6');
-      expect(fn.calls.argsFor(3)[0]).toEqual('page7');
-      expect(fn.calls.argsFor(4)[0]).toEqual('page2');
+      expect(fn.calls.argsFor(0)[0]).toEqual('page2');
+      expect(fn.calls.argsFor(1)[0]).toEqual('page3');
+      expect(fn.calls.argsFor(2)[0]).toEqual('page4');
+      expect(fn.calls.argsFor(3)[0]).toEqual('page6');
+      expect(fn.calls.argsFor(4)[0]).toEqual('page7');
       expect(fn.calls.argsFor(5)[0]).toEqual('page5');
     });
   });
