@@ -1,5 +1,5 @@
 'use-strict';
-import SchemaUtils from '../ui-component-schema-utils';
+import SchemaUtils from '../src/ui-component-schema-utils';
 import workflowFixture from './fixtures/workflow-with-children.json';
 import _ from 'lodash';
 

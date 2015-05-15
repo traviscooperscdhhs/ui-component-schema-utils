@@ -7,3 +7,5 @@ logs
 node_modules
 
 test/tests.js
+
+/ui-component-schema-utils.js
