@@ -8,7 +8,8 @@
     "lint": "node_modules/.bin/jshint src/ui-component-schema-utils.js",
     "test-ci": "node_modules/.bin/testem ci",
     "test-dev": "npm run lint && node_modules/.bin/testem dev",
-    "build": "node_modules/.bin/babel src/ui-component-schema-utils.js -o ui-component-schema-utils.js"
+    "build": "node_modules/.bin/babel src/ui-component-schema-utils.js -o ui-component-schema-utils.js",
+    "postinstall": "npm run build"
   },
   "repository": {
     "type": "git",
