@@ -1,13 +1,14 @@
 {
   "name": "@scdhhs/ui-component-schema-utils",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "A module for working with UI component schema JSON.",
   "main": "ui-component-schema-utils.js",
   "scripts": {
     "test": "npm run lint && npm run test-ci",
-    "lint": "node_modules/.bin/jshint ui-component-schema-utils.js",
+    "lint": "node_modules/.bin/jshint src/ui-component-schema-utils.js",
     "test-ci": "node_modules/.bin/testem ci",
-    "test-dev": "npm run lint && node_modules/.bin/testem dev"
+    "test-dev": "npm run lint && node_modules/.bin/testem dev",
+    "build": "node_modules/.bin/babel src/ui-component-schema-utils.js -o ui-component-schema-utils.js"
   },
   "repository": {
     "type": "git",
@@ -19,17 +20,13 @@
     "url": "https://github.com/scdhhs/ui-component-schema-utils/issues"
   },
   "homepage": "https://github.com/scdhhs/ui-component-schema-utils",
-  "browserify": {
-    "transform": [
-      "babelify"
-    ]
-  },
   "dependencies": {
-    "babelify": "^6.1.0",
     "immutable": "^3.7.2",
     "lodash": "^3.8.0"
   },
   "devDependencies": {
+    "babel": "^5.4.2",
+    "babelify": "^6.1.1",
     "browserify": "^10.1.3",
     "es5-shim": "^4.1.1",
     "es6-promise": "^2.1.1",
