@@ -4,12 +4,12 @@
   "description": "A module for working with UI component schema JSON.",
   "main": "lib/ui-component-schema-utils.js",
   "scripts": {
-    "test": "npm run lint && npm run test-ci",
+    "test": "npm run lint && npm run style && npm run test-ci",
     "lint": "node_modules/.bin/jshint src/ui-component-schema-utils.js",
+    "style": "node_modules/.bin/jscs --fix src/ui-component-schema-utils.js",
     "test-ci": "node_modules/.bin/testem ci",
     "test-dev": "npm run lint && node_modules/.bin/testem dev",
-    "build": "node_modules/.bin/babel src/ui-component-schema-utils.js -o lib/ui-component-schema-utils.js",
-    "prebuild": "npm run test",
+    "build": "node_modules/.bin/babel src/ui-component-schema-utils.js -o ui-component-schema-utils.js",
     "prepublish": "npm run build"
   },
   "repository": {
@@ -34,6 +34,7 @@
     "es6-promise": "^2.1.1",
     "jasmine": "^2.3.1",
     "jasmine-core": "^2.3.3",
+    "jscs": "^1.13.1",
     "jshint": "^2.7.0",
     "testem": "^0.8.3"
   }

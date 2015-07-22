@@ -8,4 +8,4 @@ node_modules
 
 test/tests.js
 
-lib
+/ui-component-schema-utils.js
