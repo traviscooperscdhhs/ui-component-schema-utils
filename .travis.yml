@@ -4,7 +4,9 @@ node_js:
 deploy:
   provider: npm
   email: michael.allen@scdhhs.gov
-  on:
-    tags: true
   api_key:
-    secure: mLD/4m83KTb2cBD8eiszWfyoyt+uxU2vh7S1x0xUOrKkO3aAtpovFyU+erFjXP+kfidHppQYz03mNOsI8LJTSsDNHtRhOhwUhuPfhZgia108HGUeqs+F/ZHR3HECniiUhLNcjob++2atBxd8uJv6Ki3F+eOsXBHfguSM5tqxHq8=
+    secure: eSq3lSo9US6o0dAWjjty/n+AUdm2NIUOx05z8TcIgDu19t41bXXzOOdeYVQQJn2ggV3cABJVBYrMBp4y3R26Uu7r9WiBroRMuc9z8bUsGEU8sg4lxj4ipl61ScP+8iFM+pz3mc+t31lTPELykfQ+lygMdWMQ05ZIUknkht7FV8OeGhg8pX/xBLCrGjmFyYh0nc5qienCf/fHIAgS21862fqAMBAJIx1J0mpSdoQVfY47Yt/Qw8isosLD+8eAeQcu0bdbLmgS2kbVhvDm6IZNfCR2i9ZvJmVU+L5t9RVWbFdWhYywy6nu8qznQJs+2UuZOp1N1oylo+N3GFONaZG2qmfTZ10VLab+zJpXgF43jlE81MtavZjXd01F3r1sFExPAzvVWxP/hnwlVDytG+zfWkt9PhbhAFAhZRfY/Lm8KJ17PussPrgOvaeaBKEi6JvQeLHmIVYjuYPGJOtcYBbX+nJ1wYhGpxzPmWys8xiVQWgJow92avhtvXRqFCWsJHuDCNiPD6FhlmabzeCDSCUgYbGf7FyhIf6/Hc7qb7ehkYWV/HxXFf7JG3+tK4zWG1D12fj+UAOhLviIQ7GSEmDgN8qnU1+vGcK8vUghCTGbt4hdVqqo7gzWxeUuIGmB9YWcMDGtkuriSimxeMYnmCkaGFfmMdn3RdRBa4qZo6iCjm8=
+  on:
+    branch: master
+    tags: true
+    repo: scdhhs/ui-component-schema-utils
