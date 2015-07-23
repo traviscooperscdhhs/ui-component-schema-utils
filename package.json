@@ -2,7 +2,7 @@
   "name": "@scdhhs/ui-component-schema-utils",
   "version": "1.0.11",
   "description": "A module for working with UI component schema JSON.",
-  "main": "lib/ui-component-schema-utils.js",
+  "main": "ui-component-schema-utils.js",
   "scripts": {
     "test": "npm run lint && npm run style && npm run test-ci",
     "lint": "node_modules/.bin/jshint src/ui-component-schema-utils.js",
