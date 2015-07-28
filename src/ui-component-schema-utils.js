@@ -45,7 +45,7 @@ class SchemaUtils {
    */
   static getRootId(schema, componentId) {
     let meta = SchemaUtils.getMetaData(schema, componentId);
-    while(meta && !meta.parent) {
+    while(meta && !meta.parent && meta.previous) {
       meta = SchemaUtils.getMetaData(schema, meta.previous);
     }
 
