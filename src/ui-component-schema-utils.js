@@ -88,6 +88,8 @@ class SchemaUtils {
               }
             }
           });
+        } else {
+          return null;
         }
       });
 
