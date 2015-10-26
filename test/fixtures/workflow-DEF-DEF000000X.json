@@ -1,0 +1,139 @@
+{
+  "type": "workflow",
+  "enrollmentType": "DEF",
+  "taxonomyCode": "DEF000000X",
+  "child": "provider-information",
+  "config": {
+    "lastSectionCompleted": null,
+    "actions": [
+      {
+        "id": "workflow-previous-btn",
+        "name": "Previous",
+        "type": "button",
+        "classNames": ["btn-default"],
+        "event": "workflowPreviousPage"
+      },
+      {
+        "id": "workflow-next-btn",
+        "name": "Next",
+        "type": "button",
+        "classNames": ["btn-primary"],
+        "event": "workflowNextPage"
+      }
+    ]
+  },
+  "components": {
+    "provider-information": {
+      "type": "workflowitem",
+      "next": "addresses",
+      "config": {
+        "title": "Provider Information",
+        "id": "provider-information"
+      }
+    },
+    "addresses": {
+      "type": "workflowitem",
+      "next": "services",
+      "config": {
+        "title": "Addresses",
+        "id": "addresses"
+      }
+    },
+    "services": {
+      "type": "workflowitem",
+      "next": "languages",
+      "config": {
+        "title": "Services",
+        "id": "services"
+      }
+    },
+    "languages": {
+      "type": "workflowitem",
+      "next": "hours-of-operation",
+      "config": {
+        "title": "Languages",
+        "id": "languages"
+      }
+    },
+    "hours-of-operation": {
+      "type": "workflowitem",
+      "next": "licenses",
+      "config": {
+        "title": "Hours of Operation",
+        "id": "hours-of-operation"
+      }
+    },
+    "licenses": {
+      "type": "workflowitem",
+      "next": "certifications",
+      "config": {
+        "title": "Licenses",
+        "id": "licenses"
+      }
+    },
+    "certifications": {
+      "type": "workflowitem",
+      "next": "affiliations",
+      "config": {
+        "title": "Certifications",
+        "id": "certifications"
+      }
+    },
+    "affiliations": {
+      "type": "workflowitem",
+      "next": "managing-relationships",
+      "config": {
+        "title": "Affiliations",
+        "id": "affiliations"
+      }
+    },
+    "managing-relationships": {
+      "type": "workflowitem",
+      "next": "ownership",
+      "config": {
+        "title": "Managing Relationships",
+        "id": "managing-relationships"
+      }
+    },
+    "ownership": {
+      "type": "workflowitem",
+      "next": "tax-information",
+      "config": {
+        "title": "Ownership",
+        "id": "ownership"
+      }
+    },
+    "tax-information": {
+      "type": "workflowitem",
+      "next": "sanctions-legal",
+      "config": {
+        "title": "Tax Information",
+        "id": "tax-information"
+      }
+    },
+    "sanctions-legal": {
+      "type": "workflowitem",
+      "next": "terms-and-conditions",
+      "config": {
+        "title": "Sanctions",
+        "id": "sanctions-legal"
+      }
+    },
+    "terms-and-conditions": {
+      "type": "workflowitem",
+      "next": "review-and-submit",
+      "config": {
+        "title": "Terms And Conditions",
+        "id": "terms-and-conditions"
+      }
+    },
+    "review-and-submit": {
+      "type": "workflowitem",
+      "next": "",
+      "config": {
+        "title": "Review and Submit",
+        "id": "review-and-submit"
+      }
+    }
+  }
+}
