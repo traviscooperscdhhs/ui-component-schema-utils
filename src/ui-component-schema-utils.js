@@ -51,42 +51,44 @@ class SchemaUtils {
     if (!_.isEmpty(schema)) {
       let iSchema = Immutable.fromJS(schema);
       let components = iSchema.get('components').map((component, id) => {
-        let name = component.getIn(['config', 'name'], '');
-        return component.withMutations((_component) => {
-          _component.setIn(['config', 'visible'], true);
+        if (component) {
+          let name = component.getIn(['config', 'name'], '');
+          return component.withMutations((_component) => {
+            _component.setIn(['config', 'visible'], true);
 
-          // merge current entry values into model for rendering
-          // entrylist form fields with their values
-          if (component.get('type') === 'entrylist') {
-            let entryIndex = component.getIn(['config', 'entryIndex']);
-            if (_.isNumber(entryIndex) && model.hasOwnProperty(name)) {
-              let entryModel = model[name][entryIndex] || {};
-              model = _.extend(model, entryModel);
+            // merge current entry values into model for rendering
+            // entrylist form fields with their values
+            if (component.get('type') === 'entrylist') {
+              let entryIndex = component.getIn(['config', 'entryIndex']);
+              if (_.isNumber(entryIndex) && model.hasOwnProperty(name)) {
+                let entryModel = model[name][entryIndex] || {};
+                model = _.extend(model, entryModel);
+              }
             }
-          }
 
-          // set field value
-          if (model.hasOwnProperty(name)) {
-            _component.setIn(['config', 'value'], model[name]);
-          }
-
-          // update dependent field state
-          if (_component.hasIn(['config', 'dependencyName'])) {
-            let dependencyName = _component.getIn(['config', 'dependencyName']);
-            let initialState = _component.getIn(['config', 'initialState']);
-            let dependencyType = _.includes(initialState, 'disabled') || _.includes(initialState, 'enabled') ? 'disabled': 'visible';
-            let dependencyState = dependencyType === initialState ? true : false;
-            let expectedValues = _component.getIn(['config', 'dependencyValue']).split('|');
-            if (model.hasOwnProperty(dependencyName)) {
-              let depFieldValue = model[dependencyName];
-              depFieldValue = !Array.isArray(depFieldValue) ? [depFieldValue] : depFieldValue;
-              let fieldState = _.intersection(expectedValues, depFieldValue).length > 0;
-              _component.setIn(['config', dependencyType], fieldState ? !dependencyState : dependencyState);
-            } else {
-              _component.setIn(['config', dependencyType], dependencyState);
+            // set field value
+            if (model.hasOwnProperty(name)) {
+              _component.setIn(['config', 'value'], model[name]);
             }
-          }
-        });
+
+            // update dependent field state
+            if (_component.hasIn(['config', 'dependencyName'])) {
+              let dependencyName = _component.getIn(['config', 'dependencyName']);
+              let initialState = _component.getIn(['config', 'initialState']);
+              let dependencyType = _.includes(initialState, 'disabled') || _.includes(initialState, 'enabled') ? 'disabled' : 'visible';
+              let dependencyState = dependencyType === initialState ? true : false;
+              let expectedValues = _component.getIn(['config', 'dependencyValue']).split('|');
+              if (model.hasOwnProperty(dependencyName)) {
+                let depFieldValue = model[dependencyName];
+                depFieldValue = !Array.isArray(depFieldValue) ? [depFieldValue] : depFieldValue;
+                let fieldState = _.intersection(expectedValues, depFieldValue).length > 0;
+                _component.setIn(['config', dependencyType], fieldState ? !dependencyState : dependencyState);
+              } else {
+                _component.setIn(['config', dependencyType], dependencyState);
+              }
+            }
+          });
+        }
       });
 
       updatedSchema = iSchema.setIn(['components'], components);
