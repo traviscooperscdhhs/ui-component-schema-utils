@@ -55,7 +55,6 @@ class SchemaUtils {
           let name = component.getIn(['config', 'name'], '');
           return component.withMutations((_component) => {
             _component.setIn(['config', 'visible'], true);
-
             // merge current entry values into model for rendering
             // entrylist form fields with their values
             if (component.get('type') === 'entrylist') {
@@ -88,6 +87,7 @@ class SchemaUtils {
               }
             }
           });
+
         } else {
           return null;
         }
