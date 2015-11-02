@@ -93,10 +93,10 @@ class SchemaUtils {
         }
       });
 
-      updatedSchema = iSchema.setIn(['components'], components);
+      updatedSchema = iSchema.setIn(['components'], components).toJS();
     }
 
-    return updatedSchema.toJS();
+    return updatedSchema;
   }
 
   /**
