@@ -60,31 +60,6 @@ describe('SchemaUtils', function() {
       component = result.components.field2.config;
       expect(component.visible).toBe(true);
     });
-
-    it('will provide EntryList entry values on the model', () => {
-      let fixture = {
-        components: {
-          elOne: {
-            type: 'entrylist',
-            config: {
-              entryIndex: 0,
-              name: 'el-1'
-            }
-          },
-          field1: {
-            type: 'field',
-            config: {
-              name: 'foo'
-            }
-          }
-        }
-      };
-
-      let model = {'el-1': [{foo: 'bar'}]};
-      let result = SchemaUtils.updateSchemaWithModel(model, fixture);
-      let field = result.components.field1.config;
-      expect(field.value).toEqual('bar');
-    });
   });
 
   describe('#updateWorkflowState', () => {

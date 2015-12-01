@@ -55,15 +55,6 @@ class SchemaUtils {
           let name = component.getIn(['config', 'name'], '');
           return component.withMutations((_component) => {
             _component.setIn(['config', 'visible'], true);
-            // merge current entry values into model for rendering
-            // entrylist form fields with their values
-            if (component.get('type') === 'entrylist') {
-              let entryIndex = component.getIn(['config', 'entryIndex']);
-              if (_.isNumber(entryIndex) && model.hasOwnProperty(name)) {
-                let entryModel = model[name][entryIndex] || {};
-                model = _.extend(model, entryModel);
-              }
-            }
 
             // set field value
             if (model.hasOwnProperty(name)) {
