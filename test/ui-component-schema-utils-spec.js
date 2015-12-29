@@ -60,6 +60,38 @@ describe('SchemaUtils', function() {
       component = result.components.field2.config;
       expect(component.visible).toBe(true);
     });
+
+
+      it('returns a string equal the concatonation of all fields passed in via the model that match the opConfig.fieldsArray object ids', () => {
+        let config = {
+          "id": "tiName",
+          "type": "text",
+          "name": "tiName",
+          "inputOperationConfig": {
+            "action": "composeFromFields",
+            "actionType": "model",
+            "fieldsArray": [
+              "title",
+              "nameFirst",
+              "nameMiddle",
+              "nameLast",
+              "suffix"
+            ]
+          }
+        };
+        let opConfig = config.inputOperationConfig;
+        let action = opConfig.action;
+        let model = {
+          title: 'Mr.',
+          nameFirst: 'John',
+          nameMiddle: 'L.',
+          nameLast: 'Doe',
+          suffix: 'Jr.'
+        };
+        let result = SchemaUtils[action](model, opConfig);
+        expect(result).toEqual('Mr. John L. Doe Jr.');
+      });
+
   });
 
   describe('#updateWorkflowState', () => {

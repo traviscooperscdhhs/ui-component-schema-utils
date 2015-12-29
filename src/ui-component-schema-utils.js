@@ -59,6 +59,10 @@ class SchemaUtils {
             // set field value
             if (model.hasOwnProperty(name)) {
               _component.setIn(['config', 'value'], model[name]);
+            } else if (_component.hasIn(['config', 'inputOperationConfig'])) {
+              let ioc = _component.getIn(['config', 'inputOperationConfig']).toJS();
+              let action = SchemaUtils[ioc.action];
+              _component.setIn(['config', 'value'], action(model, ioc));
             }
 
             // update dependent field state
@@ -88,6 +92,18 @@ class SchemaUtils {
     }
 
     return updatedSchema;
+  }
+
+  /**
+   * Returns an updated model with concatonated field values from previous pages as
+   * the current field's value
+   * @param {object} model - Pass in the application model
+   * @param {object} opConfig - Pass in a config with properties relevant to the operation
+   * @return {object}
+   */
+  static composeFromFields(model, config) {
+    let fieldValues = _.map(config.fieldsArray, (field) => (typeof field !== 'undefined' && model[field] !== undefined) ? model[field] : null);
+    return fieldValues.join(' ');
   }
 
   /**
