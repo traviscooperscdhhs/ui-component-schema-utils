@@ -47,7 +47,7 @@ class SchemaUtils {
    * @returns {object}
    */
   static updateSchemaWithModel(input, schema, pageId) {
-    let model = input && input.hasOwnProperty(pageId) ? input[pageId] : {};
+    let model = input && input.hasOwnProperty(pageId) && input[pageId] ? input[pageId] : {};
     let updatedSchema = {};
     if (!_.isEmpty(schema)) {
       let iSchema = Immutable.fromJS(schema);
@@ -103,10 +103,13 @@ class SchemaUtils {
    * @return {object}
    */
   static composeFromFields(applicationInput, opConfig) {
-    let input = Immutable.fromJS(applicationInput);
-    let fieldValues = _.filter(_.map(opConfig.fieldsArray, (field) => {
-      return input.hasIn([field.page, field.id]) ? input.getIn([field.page, field.id]) : null;
-    }), (field) => (field !== null));
+    let fieldValues = [];
+    if (applicationInput) {
+      let input = Immutable.fromJS(applicationInput);
+      fieldValues = _.filter(_.map(opConfig.fieldsArray, (field) => {
+          return input.hasIn([field.page, field.id]) ? input.getIn([field.page, field.id]) : null;
+      }), (field) => (field !== null));
+    }
     return fieldValues.join(' ');
   }
 
