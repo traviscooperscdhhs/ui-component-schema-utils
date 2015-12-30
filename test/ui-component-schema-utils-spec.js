@@ -41,7 +41,7 @@ describe('SchemaUtils', function() {
         }
       };
 
-      let model = null;
+      let model = {};
       let result = SchemaUtils.updateSchemaWithModel(model, fixture, 'testPage');
       let component = result.components.field1.config;
       expect(component.value).toBeUndefined();

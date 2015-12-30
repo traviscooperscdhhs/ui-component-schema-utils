@@ -47,7 +47,7 @@ class SchemaUtils {
    * @returns {object}
    */
   static updateSchemaWithModel(input, schema, pageId) {
-    let model = input && input[pageId] ? input[pageId] : {};
+    let model = input[pageId] || {};
     let updatedSchema = {};
     if (!_.isEmpty(schema)) {
       let iSchema = Immutable.fromJS(schema);
