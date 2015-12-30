@@ -21,8 +21,8 @@ describe('SchemaUtils', function() {
         }
       };
 
-      let model = {test: 'foo'};
-      let result = SchemaUtils.updateSchemaWithModel(model, fixture);
+      let model = {testPage: {test: 'foo'}};
+      let result = SchemaUtils.updateSchemaWithModel(model, fixture, 'testPage');
       let component = result.components.field1.config;
       expect(component.value).toEqual('foo');
     });
@@ -50,13 +50,13 @@ describe('SchemaUtils', function() {
         }
       };
 
-      let model = {test: 'foo'};
-      let result = SchemaUtils.updateSchemaWithModel(model, fixture);
+      let model = {testPage: {test: 'foo'}};
+      let result = SchemaUtils.updateSchemaWithModel(model, fixture, 'testPage');
       let component = result.components.field2.config;
       expect(component.visible).toBe(false);
 
-      model = {test: 'foobar'};
-      result = SchemaUtils.updateSchemaWithModel(model, fixture);
+      model = {testPage: {test: 'foobar'}};
+      result = SchemaUtils.updateSchemaWithModel(model, fixture, 'testPage');
       component = result.components.field2.config;
       expect(component.visible).toBe(true);
     });
@@ -71,24 +71,29 @@ describe('SchemaUtils', function() {
             "action": "composeFromFields",
             "actionType": "model",
             "fieldsArray": [
-              "title",
-              "nameFirst",
-              "nameMiddle",
-              "nameLast",
-              "suffix"
+              {page: "provider-information", id: "title"},
+              {page: "provider-information", id: "nameFirst"},
+              {page: "provider-information", id: "nameMiddle"},
+              {page: "provider-information", id: "nameLast"},
+              {page: "provider-information", id: "suffix"}
             ]
           }
         };
         let opConfig = config.inputOperationConfig;
         let action = opConfig.action;
         let model = {
-          title: 'Mr.',
-          nameFirst: 'John',
-          nameMiddle: 'L.',
-          nameLast: 'Doe',
-          suffix: 'Jr.'
+          'provider-information': {
+            title: 'Mr.',
+            nameFirst: 'John',
+            nameMiddle: 'L.',
+            nameLast: 'Doe',
+            suffix: 'Jr.'
+          },
+          testPage: {
+            test: 'foo'
+          }
         };
-        let result = SchemaUtils[action](model, opConfig);
+        let result = SchemaUtils[action](model, opConfig, 'testPage');
         expect(result).toEqual('Mr. John L. Doe Jr.');
       });
 

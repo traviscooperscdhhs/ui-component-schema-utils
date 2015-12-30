@@ -46,7 +46,8 @@ class SchemaUtils {
    * @param {object} schema
    * @returns {object}
    */
-  static updateSchemaWithModel(model, schema) {
+  static updateSchemaWithModel(input, schema, pageId) {
+    let model = input[pageId];
     let updatedSchema = {};
     if (!_.isEmpty(schema)) {
       let iSchema = Immutable.fromJS(schema);
@@ -62,7 +63,7 @@ class SchemaUtils {
             } else if (_component.hasIn(['config', 'inputOperationConfig'])) {
               let ioc = _component.getIn(['config', 'inputOperationConfig']).toJS();
               let action = SchemaUtils[ioc.action];
-              _component.setIn(['config', 'value'], action(model, ioc));
+              _component.setIn(['config', 'value'], action(input, ioc));
             }
 
             // update dependent field state
@@ -101,8 +102,11 @@ class SchemaUtils {
    * @param {object} opConfig - Pass in a config with properties relevant to the operation
    * @return {object}
    */
-  static composeFromFields(model, opConfig) {
-    let fieldValues = _.map(opConfig.fieldsArray, (field) => (typeof field !== 'undefined' && model[field] !== undefined) ? model[field] : null);
+  static composeFromFields(input, opConfig) {
+    let application = Immutable.fromJS(input);
+    let fieldValues = _.map(opConfig.fieldsArray, (field) => {
+      return application.hasIn([field.page, field.id]) ? application.getIn([field.page, field.id]) : null;
+    });
     return fieldValues.join(' ');
   }
 
