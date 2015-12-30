@@ -61,7 +61,6 @@ describe('SchemaUtils', function() {
       expect(component.visible).toBe(true);
     });
 
-
       it('returns a string equal the concatonation of all fields passed in via the model that match the opConfig.fieldsArray object ids', () => {
         let config = {
           "id": "tiName",
