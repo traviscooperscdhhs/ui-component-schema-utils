@@ -21,10 +21,50 @@ describe('SchemaUtils', function() {
         }
       };
 
-      let model = {test: 'foo'};
-      let result = SchemaUtils.updateSchemaWithModel(model, fixture);
+      let model = {testPage: {test: 'foo'}};
+      let result = SchemaUtils.updateSchemaWithModel(model, fixture, 'testPage');
       let component = result.components.field1.config;
       expect(component.value).toEqual('foo');
+    });
+
+    it('gracefully handle missing page from model', () => {
+      let fixture = {
+        type: 'page',
+        components: {
+          field1: {
+            type: 'field',
+            config: {
+              id: 'field1',
+              name: 'test'
+            }
+          }
+        }
+      };
+
+      let model = {};
+      let result = SchemaUtils.updateSchemaWithModel(model, fixture, 'testPage');
+      let component = result.components.field1.config;
+      expect(component.value).toBeUndefined();
+    });
+
+    it('gracefully handle missing field value from page model', () => {
+      let fixture = {
+        type: 'page',
+        components: {
+          field1: {
+            type: 'field',
+            config: {
+              id: 'field1',
+              name: 'test'
+            }
+          }
+        }
+      };
+
+      let model = {testPage: null};
+      let result = SchemaUtils.updateSchemaWithModel(model, fixture, 'testPage');
+      let component = result.components.field1.config;
+      expect(component.value).toBeUndefined();
     });
 
     it('can update a component visual state from dependency', () => {
@@ -50,16 +90,80 @@ describe('SchemaUtils', function() {
         }
       };
 
-      let model = {test: 'foo'};
-      let result = SchemaUtils.updateSchemaWithModel(model, fixture);
+      let model = {testPage: {test: 'foo'}};
+      let result = SchemaUtils.updateSchemaWithModel(model, fixture, 'testPage');
       let component = result.components.field2.config;
       expect(component.visible).toBe(false);
 
-      model = {test: 'foobar'};
-      result = SchemaUtils.updateSchemaWithModel(model, fixture);
+      model = {testPage: {test: 'foobar'}};
+      result = SchemaUtils.updateSchemaWithModel(model, fixture, 'testPage');
       component = result.components.field2.config;
       expect(component.visible).toBe(true);
     });
+
+    it('returns a string equal the concatenation of all fields passed in via the model that match the opConfig.fieldsArray object ids', () => {
+      let config = {
+        "id": "tiName",
+        "type": "text",
+        "name": "tiName",
+        "inputOperationConfig": {
+          "action": "composeFromFields",
+          "actionType": "model",
+          "fieldsArray": [
+            {page: "provider-information", id: "title"},
+            {page: "provider-information", id: "nameFirst"},
+            {page: "provider-information", id: "nameMiddle"},
+            {page: "provider-information", id: "nameLast"},
+            {page: "provider-information", id: "suffix"}
+          ]
+        }
+      };
+      let opConfig = config.inputOperationConfig;
+      let action = opConfig.action;
+      let model = {
+        'provider-information': {
+          title: 'Mr.',
+          nameFirst: 'John',
+          nameMiddle: 'L.',
+          nameLast: 'Doe',
+          suffix: 'Jr.'
+        },
+        testPage: {
+          test: 'foo'
+        }
+      };
+      let result = SchemaUtils[action](model, opConfig, 'testPage');
+      expect(result).toEqual('Mr. John L. Doe Jr.');
+    });
+
+    it('gracefully handle missing dependent values from different page', () => {
+      let config = {
+        "id": "tiName",
+        "type": "text",
+        "name": "tiName",
+        "inputOperationConfig": {
+          "action": "composeFromFields",
+          "actionType": "model",
+          "fieldsArray": [
+            {page: "provider-information", id: "title"},
+            {page: "provider-information", id: "nameFirst"},
+            {page: "provider-information", id: "nameMiddle"},
+            {page: "provider-information", id: "nameLast"},
+            {page: "provider-information", id: "suffix"}
+          ]
+        }
+      };
+      let opConfig = config.inputOperationConfig;
+      let action = opConfig.action;
+      let model = {
+        testPage: {
+          test: 'foo'
+        }
+      };
+      let result = SchemaUtils[action](model, opConfig, 'testPage');
+      expect(result).toEqual('');
+    });
+
   });
 
   describe('#updateWorkflowState', () => {

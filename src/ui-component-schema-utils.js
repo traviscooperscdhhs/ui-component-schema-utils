@@ -46,7 +46,8 @@ class SchemaUtils {
    * @param {object} schema
    * @returns {object}
    */
-  static updateSchemaWithModel(model, schema) {
+  static updateSchemaWithModel(input, schema, pageId) {
+    let model = input[pageId] || {};
     let updatedSchema = {};
     if (!_.isEmpty(schema)) {
       let iSchema = Immutable.fromJS(schema);
@@ -59,6 +60,10 @@ class SchemaUtils {
             // set field value
             if (model.hasOwnProperty(name)) {
               _component.setIn(['config', 'value'], model[name]);
+            } else if (_component.hasIn(['config', 'inputOperationConfig'])) {
+              let ioc = _component.getIn(['config', 'inputOperationConfig']).toJS();
+              let action = SchemaUtils[ioc.action];
+              _component.setIn(['config', 'value'], action(input, ioc));
             }
 
             // update dependent field state
@@ -88,6 +93,24 @@ class SchemaUtils {
     }
 
     return updatedSchema;
+  }
+
+  /**
+   * Returns an updated model with concatonated field values from previous pages as
+   * the current field's value
+   * @param {object} applicationInput - Pass in the application input
+   * @param {object} opConfig - Pass in a config with properties relevant to the operation
+   * @return {object}
+   */
+  static composeFromFields(applicationInput, opConfig) {
+    let fieldValues = [];
+    if (applicationInput) {
+      let input = Immutable.fromJS(applicationInput);
+      fieldValues = _.filter(_.map(opConfig.fieldsArray, (field) => {
+          return input.hasIn([field.page, field.id]) ? input.getIn([field.page, field.id]) : null;
+      }), (field) => (field !== null));
+    }
+    return fieldValues.join(' ');
   }
 
   /**
