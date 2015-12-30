@@ -101,8 +101,8 @@ class SchemaUtils {
    * @param {object} opConfig - Pass in a config with properties relevant to the operation
    * @return {object}
    */
-  static composeFromFields(model, config) {
-    let fieldValues = _.map(config.fieldsArray, (field) => (typeof field !== 'undefined' && model[field] !== undefined) ? model[field] : null);
+  static composeFromFields(model, opConfig) {
+    let fieldValues = _.map(opConfig.fieldsArray, (field) => (typeof field !== 'undefined' && model[field] !== undefined) ? model[field] : null);
     return fieldValues.join(' ');
   }
 
