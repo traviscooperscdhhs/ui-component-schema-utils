@@ -47,7 +47,7 @@ class SchemaUtils {
    * @returns {object}
    */
   static updateSchemaWithModel(input, schema, pageId) {
-    let model = input[pageId];
+    let model = input && input.hasOwnProperty(pageId) ? input[pageId] : {};
     let updatedSchema = {};
     if (!_.isEmpty(schema)) {
       let iSchema = Immutable.fromJS(schema);
@@ -98,15 +98,15 @@ class SchemaUtils {
   /**
    * Returns an updated model with concatonated field values from previous pages as
    * the current field's value
-   * @param {object} model - Pass in the application model
+   * @param {object} applicationInput - Pass in the application input
    * @param {object} opConfig - Pass in a config with properties relevant to the operation
    * @return {object}
    */
-  static composeFromFields(input, opConfig) {
-    let application = Immutable.fromJS(input);
-    let fieldValues = _.map(opConfig.fieldsArray, (field) => {
-      return application.hasIn([field.page, field.id]) ? application.getIn([field.page, field.id]) : null;
-    });
+  static composeFromFields(applicationInput, opConfig) {
+    let input = Immutable.fromJS(applicationInput);
+    let fieldValues = _.filter(_.map(opConfig.fieldsArray, (field) => {
+      return input.hasIn([field.page, field.id]) ? input.getIn([field.page, field.id]) : null;
+    }), (field) => (field !== null));
     return fieldValues.join(' ');
   }
 
