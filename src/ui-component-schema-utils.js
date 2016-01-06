@@ -49,6 +49,7 @@ class SchemaUtils {
   static updateSchemaWithModel(input, schema, pageId) {
     let model = input[pageId] || {};
     let updatedSchema = {};
+    let updates = {};
     if (!_.isEmpty(schema)) {
       let iSchema = Immutable.fromJS(schema);
       let components = iSchema.get('components').map((component, id) => {
@@ -63,7 +64,13 @@ class SchemaUtils {
             } else if (_component.hasIn(['config', 'inputOperationConfig'])) {
               let ioc = _component.getIn(['config', 'inputOperationConfig']).toJS();
               let action = SchemaUtils[ioc.action];
-              _component.setIn(['config', 'value'], action(input, ioc));
+              let compositeValue = action(input, ioc);
+              _component.setIn(['config', 'value'], compositeValue);
+              updates[name] = compositeValue;
+            } else if (_component.getIn(['config', 'type']) === 'date' && _component.getIn(['config', 'value']) === 'today') {
+              let dateValue = new Date();
+              _component.setIn(['config', 'value'], dateValue);
+              updates[name] = dateValue;
             }
 
             // update dependent field state
@@ -92,7 +99,7 @@ class SchemaUtils {
       updatedSchema = iSchema.setIn(['components'], components).toJS();
     }
 
-    return updatedSchema;
+    return {schema: updatedSchema, updates};
   }
 
   /**

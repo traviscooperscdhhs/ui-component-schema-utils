@@ -23,8 +23,31 @@ describe('SchemaUtils', function() {
 
       let model = {testPage: {test: 'foo'}};
       let result = SchemaUtils.updateSchemaWithModel(model, fixture, 'testPage');
-      let component = result.components.field1.config;
+      let component = result.schema.components.field1.config;
       expect(component.value).toEqual('foo');
+    });
+
+    it('can update a date value that is set to #today', () => {
+      let fixture = {
+        type: 'page',
+        components: {
+          field1: {
+            type: 'field',
+            config: {
+              id: 'field1',
+              name: 'test',
+              type: 'date',
+              value: 'today'
+            }
+          }
+        }
+      };
+
+      let model = {testPage: {test: 'foo'}};
+      let result = SchemaUtils.updateSchemaWithModel(model, fixture, 'testPage');
+      let component = result.schema.components.field1.config;
+      expect(component.value).toBeDefined();
+      expect(component.value).toNotBe('today');
     });
 
     it('gracefully handle missing page from model', () => {
@@ -43,7 +66,7 @@ describe('SchemaUtils', function() {
 
       let model = {};
       let result = SchemaUtils.updateSchemaWithModel(model, fixture, 'testPage');
-      let component = result.components.field1.config;
+      let component = result.schema.components.field1.config;
       expect(component.value).toBeUndefined();
     });
 
@@ -63,7 +86,7 @@ describe('SchemaUtils', function() {
 
       let model = {testPage: null};
       let result = SchemaUtils.updateSchemaWithModel(model, fixture, 'testPage');
-      let component = result.components.field1.config;
+      let component = result.schema.components.field1.config;
       expect(component.value).toBeUndefined();
     });
 
@@ -92,12 +115,12 @@ describe('SchemaUtils', function() {
 
       let model = {testPage: {test: 'foo'}};
       let result = SchemaUtils.updateSchemaWithModel(model, fixture, 'testPage');
-      let component = result.components.field2.config;
+      let component = result.schema.components.field2.config;
       expect(component.visible).toBe(false);
 
       model = {testPage: {test: 'foobar'}};
       result = SchemaUtils.updateSchemaWithModel(model, fixture, 'testPage');
-      component = result.components.field2.config;
+      component = result.schema.components.field2.config;
       expect(component.visible).toBe(true);
     });
 
