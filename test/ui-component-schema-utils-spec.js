@@ -27,7 +27,7 @@ describe('SchemaUtils', function() {
       expect(component.value).toEqual('foo');
     });
 
-    it('can update a date value that is set to #today', () => {
+    it('can update a date value that is set to #today and properly construct #updates object', () => {
       let fixture = {
         type: 'page',
         components: {
@@ -35,7 +35,7 @@ describe('SchemaUtils', function() {
             type: 'field',
             config: {
               id: 'field1',
-              name: 'test',
+              name: 'field1',
               type: 'date',
               value: 'today'
             }
@@ -43,11 +43,12 @@ describe('SchemaUtils', function() {
         }
       };
 
-      let model = {testPage: {test: 'foo'}};
+      let model = {testPage:{}};
       let result = SchemaUtils.updateSchemaWithModel(model, fixture, 'testPage');
       let component = result.schema.components.field1.config;
-      expect(component.value).toBeDefined();
-      expect(component.value).toNotBe('today');
+      // contains fields to update since their values were composed during the merge
+      let updates = result.updates;
+      expect(component.value).toEqual(updates.field1);
     });
 
     it('gracefully handle missing page from model', () => {

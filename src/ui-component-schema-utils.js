@@ -42,8 +42,11 @@ class SchemaUtils {
 
   /**
    * Perform visual state updates by examining the passed in model.
+   * Returns 'schema' with merged model/config data, and 'updates' that contains
+   * the fields whose values were composed and thus need to be updated upstream
    * @param {object} model
    * @param {object} schema
+   * @param {string} pageId
    * @returns {object}
    */
   static updateSchemaWithModel(input, schema, pageId) {
