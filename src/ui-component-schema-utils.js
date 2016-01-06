@@ -64,7 +64,9 @@ class SchemaUtils {
             // set field value
             if (model.hasOwnProperty(name)) {
               _component.setIn(['config', 'value'], model[name]);
-            } else if (_component.hasIn(['config', 'inputOperationConfig'])) {
+            }
+            // Composed values should be 'recomposed' even if they have a current value
+            if (_component.hasIn(['config', 'inputOperationConfig'])) {
               let ioc = _component.getIn(['config', 'inputOperationConfig']).toJS();
               let action = SchemaUtils[ioc.action];
               let compositeValue = action(input, ioc);
